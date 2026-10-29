@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Smart Link Router: Open Tab Links in Another Window",
   "description": "Route links from a selected tab to a chosen Chrome window and keep multi-window browsing organized. Route as many tabs as you need.",
-  "version": "1.1",
+  "version": "1.2",
   "permissions": [
     "tabs",
     "windows",
