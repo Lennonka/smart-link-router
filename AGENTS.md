@@ -21,7 +21,15 @@ Smart Link Router is a Chrome Manifest V3 extension that routes links from a sou
 - Keep asynchronous message channels open where responses are sent after awaiting work. Account for the Manifest V3 service worker lifecycle; do not rely on persistent in-memory state.
 - Consider closed destination windows, missing active tabs, and unavailable destinations when changing routing behavior.
 - When editing click interception, check normal clicks, modifier clicks, link targets, fragment links, and JavaScript links. Avoid unintended changes to navigation behavior.
-- Do not expand permissions, host access, or bump the extension version unless the task requires it.
+- Do not expand permissions or host access unless the task requires it.
+
+## Versioning
+
+When changing the extension, increment `version` in `manifest.json` using the existing `major.minor` format:
+
+- Increment the major version for breaking changes and reset the minor version to zero (for example, `1.2` → `2.0`).
+- Increment the minor version for other, smaller changes (for example, `1.2` → `1.3`).
+- Documentation-only changes do not require an extension version bump.
 
 ## Popup design
 
