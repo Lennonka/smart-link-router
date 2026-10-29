@@ -18,6 +18,7 @@ async function load() {
    const tab = await getCurrentTab();
    if (!tab || !tab.id) {
       statusEl.textContent = "No active tab.";
+      statusEl.dataset.state = "error";
       return;
    }
 
@@ -31,6 +32,12 @@ async function load() {
       tabId: tab.id
    });
    const currentRoute = routeRes?.windowId || null;
+
+   selectEl.disabled = false;
+   setBtn.disabled = false;
+   clearBtn.disabled = !currentRoute;
+   clearBtn.className = currentRoute ? "primary" : "clear";
+   setBtn.className = currentRoute ? "secondary" : "primary";
 
    // Build dropdown
    selectEl.innerHTML = "";
@@ -65,9 +72,11 @@ async function load() {
 
    // Status text
    if (currentRoute) {
-      statusEl.textContent = `This tab is routed to window ${currentRoute}.`;
+      statusEl.textContent = `Routed to window ${currentRoute}`;
+      statusEl.dataset.state = "active";
    } else {
-      statusEl.textContent = "This tab has no route.";
+      statusEl.textContent = "No route set";
+      statusEl.dataset.state = "idle";
    }
 
    // Wire buttons
@@ -95,4 +104,13 @@ async function load() {
    };
 }
 
-document.addEventListener("DOMContentLoaded", load);
+document.addEventListener("DOMContentLoaded", () => {
+   load().catch(() => {
+      const statusEl = document.getElementById("status");
+      statusEl.textContent = "Couldn’t load routes. Reopen to try again.";
+      statusEl.dataset.state = "error";
+      for (const id of ["windowSelect", "setBtn", "clearBtn"]) {
+         document.getElementById(id).disabled = true;
+      }
+   });
+});
